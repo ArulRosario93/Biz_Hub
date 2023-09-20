@@ -1,6 +1,7 @@
 import 'package:biz_hub/Blog_Search.dart';
 import 'package:biz_hub/Blog_Stories.dart';
 import 'package:biz_hub/Upload_Blog.dart';
+import 'package:biz_hub/login.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      home: Blog_Search(),
+      home: Login(),
     );
   }
 }
