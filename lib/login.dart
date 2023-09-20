@@ -1,6 +1,7 @@
 import 'package:biz_hub/Blog_Search.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -10,8 +11,12 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
   TextEditingController emailAddress = TextEditingController();
   TextEditingController password = TextEditingController();
+
+  var errorMsg = "";
 
   @override
   Widget build(BuildContext context) {
@@ -30,12 +35,22 @@ class _LoginState extends State<Login> {
           : null;
     }
 
-    void HandleSubmission() {
-      Navigator.push(
+    void HandleSubmission() async {
+      try {
+        await _auth.createUserWithEmailAndPassword(
+          email: emailAddress.text,
+          password: password.text,
+        );
+        Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => Blog_Search(),
           ));
+      } catch (e) {
+        setState(() {
+          errorMsg = e.toString();
+        });
+      }
     }
 
     return Scaffold(
@@ -49,7 +64,14 @@ class _LoginState extends State<Login> {
             "Biz Register",
             style: GoogleFonts.cinzel(fontSize: 30),
           ),
-          Padding(padding: EdgeInsets.symmetric(vertical: 20)),
+          Padding(padding: EdgeInsets.symmetric(vertical: 5)),
+          Text(
+            errorMsg,
+            style: GoogleFonts.poppins(
+                textStyle:
+                    TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
+          ),
+          Padding(padding: EdgeInsets.symmetric(vertical: 5)),
           Container(
             margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
             child: TextFormField(
