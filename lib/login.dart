@@ -41,14 +41,15 @@ class _LoginState extends State<Login> {
           email: emailAddress.text,
           password: password.text,
         );
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Blog_Search(),
-          ));
-      } catch (e) {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Blog_Search(),
+            ));
+      } catch (err) {
+        print(err);
         setState(() {
-          errorMsg = e.toString();
+          errorMsg = err.toString();
         });
       }
     }
@@ -65,11 +66,14 @@ class _LoginState extends State<Login> {
             style: GoogleFonts.cinzel(fontSize: 30),
           ),
           Padding(padding: EdgeInsets.symmetric(vertical: 5)),
-          Text(
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 20),
+            child: Text(
             errorMsg,
             style: GoogleFonts.poppins(
                 textStyle:
-                    TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
+                    TextStyle(color: Colors.red, fontWeight: FontWeight.bold, fontSize: 12)),
+            )
           ),
           Padding(padding: EdgeInsets.symmetric(vertical: 5)),
           Container(
